@@ -1,0 +1,4 @@
+Clu,CluGOLD,Impossible,1000,80,Aggressive,Brilliant,75,2,12
+Rinzler,RED,Hard,500,40,Sharp,Clever,50,2,6
+Sark,YELLOW,Medium,100,20,Predictable,Moderate,35,1,0
+Koura,GREEN,Easy,10,5,Erratic,Low,20,1,0
