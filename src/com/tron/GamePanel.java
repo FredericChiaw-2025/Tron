@@ -21,7 +21,7 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel {
     
     private static final int gridSize = 42;
-    private static final int cellSize = 15;
+    private static final int cellSize = 23;
     private static final int playerDeep = 45;
     private static final int EnemyDeep = 140;
     
@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(gridSize * cellSize, gridSize * cellSize));
         setBackground(Color.BLACK);
         setFocusable(true);
-        setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.WHITE, 15));
+        setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.WHITE, cellSize));
         
         //Initial Player
         player = null;
@@ -125,7 +125,6 @@ public class GamePanel extends JPanel {
         if (enemyList.size() <= 0) {
             for(Disc e : discList){ player.addDisc(1); }
             player.addLevel(1);
-            player.addLives(player.getSpeed());
             timer.stop();
             gameState = GameState.GameOver;
             player.playerSave();
@@ -213,7 +212,7 @@ public class GamePanel extends JPanel {
         for(Enemy e : enemyList) {
             for(int i = 0; i < trail.length; i++) {
                 for(int j = 0; j < trail[i].length; j++){
-                    if(e.getTrail(i, j) > (Math.min(80, EnemyDeep / enemyList.size() + 1)) / 3){
+                    if(e.getTrail(i, j) > 10){
                         g.setColor(e.getColor().darker());
                         g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                     }
@@ -230,7 +229,7 @@ public class GamePanel extends JPanel {
         }
         for(int i = 0; i < trail.length; i++) {
             for(int j = 0; j < trail[i].length; j++){
-                if(player.getTrail(i, j) > playerDeep / 3){
+                if(player.getTrail(i, j) > 10){
                     g.setColor(player.getColor().darker());
                     g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                 }
@@ -253,20 +252,25 @@ public class GamePanel extends JPanel {
             if(player.getDiscOwned() > 0){
                 if(player.getDiscCool() <= 0){
                     g.setColor(Color.WHITE);
-                    g.drawOval(player.getX()*cellSize + 2, player.getY()*cellSize + 2, cellSize - 4, cellSize -4);
-                    g.setColor(player.getColor().darker().darker());
                     g.drawOval(player.getX()*cellSize + 3, player.getY()*cellSize + 3, cellSize - 6, cellSize -6);
-                    g.setColor(player.getColor().brighter());
+                    g.setColor(player.getColor().darker().darker());
                     g.drawOval(player.getX()*cellSize + 4, player.getY()*cellSize + 4, cellSize - 8, cellSize -8);
-                    g.setColor(player.getColor().darker());
                     g.drawOval(player.getX()*cellSize + 5, player.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.drawOval(player.getX()*cellSize + 6, player.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.setColor(player.getColor().brighter());
+                    g.drawOval(player.getX()*cellSize + 7, player.getY()*cellSize + 7, cellSize - 14, cellSize -14);
+                    g.setColor(player.getColor().darker());
+                    g.drawOval(player.getX()*cellSize + 8, player.getY()*cellSize + 8, cellSize - 16, cellSize -16);
+                    g.drawOval(player.getX()*cellSize + 9, player.getY()*cellSize + 9, cellSize - 18, cellSize -18);
                 }else{
                     g.setColor(player.getColor().darker().darker());
-                    g.drawOval(player.getX()*cellSize + 2, player.getY()*cellSize + 2, cellSize - 4, cellSize -4);
                     g.drawOval(player.getX()*cellSize + 3, player.getY()*cellSize + 3, cellSize - 6, cellSize -6);
+                    g.drawOval(player.getX()*cellSize + 4, player.getY()*cellSize + 4, cellSize - 8, cellSize -8);
                     g.drawOval(player.getX()*cellSize + 5, player.getY()*cellSize + 5, cellSize - 10, cellSize -10);
                     g.setColor(player.getColor().brighter());
-                    g.drawOval(player.getX()*cellSize + 4, player.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(player.getX()*cellSize + 6, player.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.setColor(player.getColor().darker());
+                    g.drawOval(player.getX()*cellSize + 7, player.getY()*cellSize + 7, cellSize - 14, cellSize -14);
                 }
             }
         }
@@ -278,20 +282,25 @@ public class GamePanel extends JPanel {
             if(e.getDiscOwned() > 0){
                 if(e.getDiscCool() <= 0){
                     g.setColor(Color.WHITE);
-                    g.drawOval(e.getX()*cellSize + 2, e.getY()*cellSize + 2, cellSize - 4, cellSize -4);
-                    g.setColor(e.getColor().darker().darker());
                     g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
-                    g.setColor(e.getColor().brighter());
+                    g.setColor(e.getColor().darker().darker());
                     g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
-                    g.setColor(e.getColor().darker());
                     g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.setColor(e.getColor().brighter());
+                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
+                    g.setColor(e.getColor().darker());
+                    g.drawOval(e.getX()*cellSize + 8, e.getY()*cellSize + 8, cellSize - 16, cellSize -16);
+                    g.drawOval(e.getX()*cellSize + 9, e.getY()*cellSize + 9, cellSize - 18, cellSize -18);
                 }else{
                     g.setColor(e.getColor().darker().darker());
-                    g.drawOval(e.getX()*cellSize + 2, e.getY()*cellSize + 2, cellSize - 4, cellSize -4);
                     g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
+                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
                     g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
                     g.setColor(e.getColor().brighter());
-                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.setColor(e.getColor().darker());
+                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
                 }
             }
         }
@@ -302,90 +311,94 @@ public class GamePanel extends JPanel {
                 if(e.getLives() > 0){
                     g.setColor(Color.WHITE);
                     g.drawOval(e.getX()*cellSize + 1, e.getY()*cellSize + 1, cellSize - 2, cellSize -2);
-                    g.setColor(e.getColor().darker().darker());
                     g.drawOval(e.getX()*cellSize + 2, e.getY()*cellSize + 2, cellSize - 4, cellSize -4);
+                    g.setColor(e.getColor().darker().darker());
                     g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
-                    g.setColor(e.getColor().brighter());
                     g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.setColor(e.getColor().brighter());
+                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
                 }else{
                     g.setColor(e.getColor().darker().darker());
                     g.drawOval(e.getX()*cellSize + 2, e.getY()*cellSize + 2, cellSize - 4, cellSize -4);
                     g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
-                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
+                    g.drawOval(e.getX()*cellSize + 8, e.getY()*cellSize + 8, cellSize - 16, cellSize -16);
                     if(Color.BLACK.equals(e.getColor())){
                         g.setColor(Color.WHITE);
                     }else{ g.setColor(e.getColor().brighter()); }
-                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
                 }
             }
         }
 
         // HUD
         g.setColor(player.getColor().darker());
-        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.setFont(new Font("Arial", Font.BOLD, cellSize));
         g.drawString(
             "Lives: " + Math.max(0, player.getLives()) + 
             "  XP: " + player.getXp() + 
             "  Level: " + player.getLevel()
-            , 15, 30);
+            , cellSize, 2 * cellSize);
         g.drawString(
             "Speed: " + player.getSpeed() +
             "  Discs: " + player.getDiscOwned()
-            , 15, 45);
+            , cellSize, 3 * cellSize);
     }
     
     private void showGameOverOverlay(String title, String[] story, String[] button, boolean loadLevel) {
+        
         setLayout(null);
         
-        JPanel overlay = new JPanel();
-        overlay.setBounds(0, 0, getPreferredSize().width, getPreferredSize().height);
-        overlay.setBackground(new Color(0, 0, 0, 180));
-        overlay.setLayout(new GridBagLayout());
-        
-        JLabel gameOverLabel = new JLabel(title);
-        gameOverLabel.setFont(new Font("Times New Roman", Font.BOLD, 24));
-        gameOverLabel.setForeground(player.getColor());
-        
-        JButton[] nextButton = new JButton[button.length];
-        for(int i = 0; i < button.length; i++){
-            nextButton[i] = new JButton(button[i]);
-            mouseButton(nextButton[i]);
-        }
-        for(int i = 0; i < nextButton.length; i++){
-            final int tree = i;
-            nextButton[i].addActionListener(new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e){ levelSave(story[tree]); restartGame(loadLevel);
-                }
-            });
-        }
-        JButton menuButton = new JButton("BACK TO MENU");
-        mouseButton(menuButton);
-        menuButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){ levelSave(story[0]); backToMenu(); }
-        });
-        
+        //box
         JPanel box = new JPanel();
         box.setBackground(new Color(0, 0, 0, 0));
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
         
-        gameOverLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        for(JButton e : nextButton){
-            e.setAlignmentX(Component.CENTER_ALIGNMENT);
-        }
-        menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //TitleLabel
+        JLabel titleLabel = new JLabel(title);
+        titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 2 * cellSize));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        box.add(titleLabel);
         
-        box.add(gameOverLabel);
-        box.add(Box.createVerticalStrut(20));
-        for(JButton e : nextButton){
-            box.add(e);
-            box.add(Box.createVerticalStrut(10));
+        //NextButton
+        JButton[] nextButton = new JButton[button.length];
+        for(int i = 0; i < button.length; i++){
+            nextButton[i] = new JButton(button[i]);
+            final int tree = i;
+            nextButton[i].addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e){ levelSave(story[tree]); restartGame(loadLevel); }
+            });
+            mouseButton(nextButton[i]);
+            nextButton[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+            box.add(Box.createVerticalStrut(cellSize));
+            box.add(nextButton[i]);
         }
+        
+        //MenuButton
+        JButton menuButton = new JButton("Back To Menu");
+        menuButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){ levelSave(story[0]); backToMenu(); }
+        });
+        mouseButton(menuButton);
+        menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        box.add(Box.createVerticalStrut(2 * cellSize));
         box.add(menuButton);
         
+        //overlay
+        JPanel overlay = new JPanel();
+        overlay.setBounds(0, 0, getPreferredSize().width, getPreferredSize().height);
+        overlay.setBackground(new Color(0, 120, 255, 180));
+        overlay.setLayout(new GridBagLayout());
         overlay.add(box);
         add(overlay);
+        
         revalidate();
         repaint();
     }
@@ -534,6 +547,7 @@ public class GamePanel extends JPanel {
         }else{
             player = new Kevin(gridSize);
         }
+        player.addLives(player.getSpeed());
         playerClear();
         levelClear();
         
@@ -641,17 +655,27 @@ public class GamePanel extends JPanel {
     }
     
     public static void mouseButton(JButton button){
-        button.setFont(new Font("Times New Roman", Font.BOLD, 20));
-        button.setBackground(Color.LIGHT_GRAY);
+        button.setFont(new Font("Times New Roman", Font.BOLD, 2 * cellSize));
+        button.setPreferredSize(new Dimension(500, 70));
+        button.setMaximumSize(new Dimension(500, 70));
+        button.setMinimumSize(new Dimension(500, 70));
+        button.setBackground(new Color(0, 120, 255).brighter());
         button.setForeground(Color.BLACK);
+        
+        button.setBorder(BorderFactory.createEmptyBorder());
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(Color.WHITE);
+                button.setBackground(new Color(0, 120, 255).darker());
+                button.setForeground(Color.WHITE);
             }
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(Color.LIGHT_GRAY);
+                button.setBackground(new Color(0, 120, 255).brighter());
+                button.setForeground(Color.BLACK);
             }
         });
     }
