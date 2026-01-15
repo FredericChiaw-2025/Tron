@@ -21,7 +21,7 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel {
     
     private static final int gridSize = 42;
-    private static final int cellSize = 23;
+    private static final int cellSize = 22;
     private static final int playerDeep = 45;
     private static final int EnemyDeep = 140;
     
@@ -40,8 +40,8 @@ public class GamePanel extends JPanel {
     private Timer timer;
     
     private Player player;
-    private ArrayList<Disc> discList;
     private ArrayList<Enemy> enemyList;
+    private ArrayList<Disc> discList;
     private boolean[][] trail = new boolean[gridSize][gridSize];
     private boolean[][] map = new boolean[gridSize][gridSize];
     
@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(gridSize * cellSize, gridSize * cellSize));
         setBackground(Color.BLACK);
         setFocusable(true);
-        setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.WHITE, cellSize));
+        setBorder(javax.swing.BorderFactory.createLineBorder(Color.WHITE, cellSize));
         
         //Initial Player
         player = null;
@@ -127,7 +127,6 @@ public class GamePanel extends JPanel {
             player.addLevel(1);
             timer.stop();
             gameState = GameState.GameOver;
-            player.playerSave();
             showGameOverOverlay(winTitle, winStory, winButton, true); }
         //DiscRemove
         ArrayList<Disc> discRemove = new ArrayList<>();
@@ -142,7 +141,6 @@ public class GamePanel extends JPanel {
             if(e.getColor().equals(player.getColor())) discPublic = false;
             if(discPublic) e.discPublic();
         }
-        
         
         if(rd.nextDouble()*100 < Math.max(20, 100.0 / (player.getSpeed() + 20) * 20)){
             //DiscCool
@@ -198,7 +196,7 @@ public class GamePanel extends JPanel {
             g.drawLine(0, i * cellSize, gridSize * cellSize, i * cellSize);
         }
         
-        //DrawTrail
+        //EnemyTrail
         for(Enemy e : enemyList) {
             for(int i = 0; i < trail.length; i++) {
                 for(int j = 0; j < trail[i].length; j++){
@@ -212,13 +210,20 @@ public class GamePanel extends JPanel {
                         g.setColor(e.getColor().darker().darker());
                         g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                     }
-                    if(e.getTrail(i, j) > 15){
+                    for(int k = 1; k <= 10; k++){
+                        if(e.getTrail(i, j) == 10 + k){
+                            g.setColor(e.getColor().darker());
+                        g.fillRect(i*cellSize + (10 - k), j*cellSize + (10 - k), cellSize - 2 * (10 - k), cellSize - 2 * (10 - k));
+                        }
+                    }
+                    if(e.getTrail(i, j) > 20){
                         g.setColor(e.getColor().darker());
                         g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                     }
                 }
             }
         }
+        //PlayerTrail
         for(int i = 0; i < trail.length; i++) {
             for(int j = 0; j < trail[i].length; j++){
                 for(int k = 1; k <= 10; k++){
@@ -231,7 +236,13 @@ public class GamePanel extends JPanel {
                     g.setColor(player.getColor().darker().darker());
                     g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                 }
-                if(player.getTrail(i, j) > 15){
+                for(int k = 1; k <= 10; k++){
+                    if(player.getTrail(i, j) == 10 + k){
+                        g.setColor(player.getColor().darker());
+                        g.fillRect(i*cellSize + (10 - k), j*cellSize + (10 - k), cellSize - 2 * (10 - k), cellSize - 2 * (10 - k));
+                    }
+                }
+                if(player.getTrail(i, j) > 20){
                     g.setColor(player.getColor().darker());
                     g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                 }
@@ -242,6 +253,36 @@ public class GamePanel extends JPanel {
                 if(map[i][j]){
                     g.setColor(Color.WHITE);
                     g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
+                }
+            }
+        }
+        
+        //Enemy
+        for(Enemy e : enemyList) {
+            g.setColor(e.getColor());
+            g.fillRect(e.getX()*cellSize, e.getY()*cellSize, cellSize, cellSize);
+            if(e.getDiscOwned() > 0){
+                if(e.getDiscCool() <= 0){
+                    g.setColor(Color.WHITE);
+                    g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
+                    g.setColor(e.getColor().darker().darker());
+                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.setColor(e.getColor().brighter());
+                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
+                    g.setColor(e.getColor().darker());
+                    g.drawOval(e.getX()*cellSize + 8, e.getY()*cellSize + 8, cellSize - 16, cellSize -16);
+                    g.drawOval(e.getX()*cellSize + 9, e.getY()*cellSize + 9, cellSize - 18, cellSize -18);
+                }else{
+                    g.setColor(e.getColor().darker().darker());
+                    g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
+                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
+                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
+                    g.setColor(e.getColor().brighter());
+                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
+                    g.setColor(e.getColor().darker());
+                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
                 }
             }
         }
@@ -273,36 +314,6 @@ public class GamePanel extends JPanel {
                     g.drawOval(player.getX()*cellSize + 6, player.getY()*cellSize + 6, cellSize - 12, cellSize -12);
                     g.setColor(player.getColor().darker());
                     g.drawOval(player.getX()*cellSize + 7, player.getY()*cellSize + 7, cellSize - 14, cellSize -14);
-                }
-            }
-        }
-        
-        //Enemy
-        for(Enemy e : enemyList) {
-            g.setColor(e.getColor());
-            g.fillRect(e.getX()*cellSize, e.getY()*cellSize, cellSize, cellSize);
-            if(e.getDiscOwned() > 0){
-                if(e.getDiscCool() <= 0){
-                    g.setColor(Color.WHITE);
-                    g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
-                    g.setColor(e.getColor().darker().darker());
-                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
-                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
-                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
-                    g.setColor(e.getColor().brighter());
-                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
-                    g.setColor(e.getColor().darker());
-                    g.drawOval(e.getX()*cellSize + 8, e.getY()*cellSize + 8, cellSize - 16, cellSize -16);
-                    g.drawOval(e.getX()*cellSize + 9, e.getY()*cellSize + 9, cellSize - 18, cellSize -18);
-                }else{
-                    g.setColor(e.getColor().darker().darker());
-                    g.drawOval(e.getX()*cellSize + 3, e.getY()*cellSize + 3, cellSize - 6, cellSize -6);
-                    g.drawOval(e.getX()*cellSize + 4, e.getY()*cellSize + 4, cellSize - 8, cellSize -8);
-                    g.drawOval(e.getX()*cellSize + 5, e.getY()*cellSize + 5, cellSize - 10, cellSize -10);
-                    g.setColor(e.getColor().brighter());
-                    g.drawOval(e.getX()*cellSize + 6, e.getY()*cellSize + 6, cellSize - 12, cellSize -12);
-                    g.setColor(e.getColor().darker());
-                    g.drawOval(e.getX()*cellSize + 7, e.getY()*cellSize + 7, cellSize - 14, cellSize -14);
                 }
             }
         }
@@ -357,6 +368,7 @@ public class GamePanel extends JPanel {
         
         //box
         JPanel box = new JPanel();
+        box.setBounds(0, 0, getPreferredSize().width, getPreferredSize().height);
         box.setBackground(new Color(0, 0, 0, 0));
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
         
@@ -374,7 +386,7 @@ public class GamePanel extends JPanel {
             final int tree = i;
             nextButton[i].addActionListener(new ActionListener(){
                 @Override
-                public void actionPerformed(ActionEvent e){ levelSave(story[tree]); restartGame(loadLevel); }
+                public void actionPerformed(ActionEvent e){ save(story[tree]); restartGame(loadLevel); }
             });
             mouseButton(nextButton[i]);
             nextButton[i].setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -386,7 +398,7 @@ public class GamePanel extends JPanel {
         JButton menuButton = new JButton("Back To Menu");
         menuButton.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent e){ levelSave(story[0]); backToMenu(); }
+            public void actionPerformed(ActionEvent e){ save(story[0]); frame.showMenu(); }
         });
         mouseButton(menuButton);
         menuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -587,18 +599,17 @@ public class GamePanel extends JPanel {
         timer.setDelay(Math.max(20, 100 / (player.getSpeed() + 20) * 20));
     }
     
-    private void backToMenu() {
-        frame.showMenu();
-    }
-    
-    public void levelSave(String story){
+    public void save(String story){
         try(PrintWriter os = new PrintWriter(new FileOutputStream("LevelLoad.txt"))){
             os.print(story);
         }catch(FileNotFoundException e){
             System.out.println("PlayerLoad.txt: File was not found");
         }catch(IOException e){
             System.out.println("PlayerLoad.txt: Error writing to file");
+        }catch(Exception e){
+            System.out.println("PlayerLoad.txt: Error");
         }
+        player.playerSave();
     }
     
     public void playerClear(){
@@ -608,6 +619,8 @@ public class GamePanel extends JPanel {
             System.out.println("PlayerLoad.txt: File was not found");
         }catch(IOException e){
             System.out.println("PlayerLoad.txt: Error writing to file");
+        }catch(Exception e){
+            System.out.println("PlayerLoad.txt: Error");
         }
     }
     
@@ -615,9 +628,11 @@ public class GamePanel extends JPanel {
         try(PrintWriter os = new PrintWriter(new FileOutputStream("LevelLoad.txt"))){
             os.print("");
         }catch(FileNotFoundException e){
-            System.out.println("PlayerLoad.txt: File was not found");
+            System.out.println("LevelLoad.txt: File was not found");
         }catch(IOException e){
-            System.out.println("PlayerLoad.txt: Error writing to file");
+            System.out.println("LevelLoad.txt: Error writing to file");
+        }catch(Exception e){
+            System.out.println("LevelLoad.txt: Error");
         }
     }
     

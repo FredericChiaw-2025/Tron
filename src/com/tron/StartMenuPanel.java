@@ -10,7 +10,7 @@ import javax.swing.*;
 public class StartMenuPanel extends JPanel {
     
     public StartMenuPanel(MainFrame frame) {
-        setPreferredSize(new Dimension(630, 630));
+        setPreferredSize(new Dimension(22 * 40, 22 * 40));
         setBackground(new Color(0, 120, 255).darker().darker().darker());
         setLayout(new GridBagLayout());
         
@@ -19,8 +19,9 @@ public class StartMenuPanel extends JPanel {
         
         //Title
         JLabel title = new JLabel("TRON");
-        title.setFont(new Font("Times New Roman", Font.BOLD, 92));
+        title.setFont(new Font("Times New Roman", Font.BOLD, 88));
         title.setForeground(new Color(0, 120, 255));
+        gbc.insets = new Insets(0, 0, 22, 0);
         add(title, gbc);
         
         //NEWGAME
@@ -31,7 +32,7 @@ public class StartMenuPanel extends JPanel {
         });
         GamePanel.mouseButton(newButton);
         gbc.gridy++;
-        gbc.insets = new Insets(23, 0, 0, 0);
+        gbc.insets = new Insets(0, 0, 22, 0);
         add(newButton, gbc);
         
         //LOADGAME
@@ -46,7 +47,7 @@ public class StartMenuPanel extends JPanel {
                     });
                     GamePanel.mouseButton(loadButton);
                     gbc.gridy++;
-                    gbc.insets = new Insets(23, 0, 0, 0);
+                    gbc.insets = new Insets(0, 0, 22, 0);
                     add(loadButton, gbc);
                 }
             }
@@ -66,7 +67,7 @@ public class StartMenuPanel extends JPanel {
         });
         GamePanel.mouseButton(exitButton);
         gbc.gridy++;
-        gbc.insets = new Insets(46, 0, 0, 0);
+        gbc.insets = new Insets(22, 0, 0, 0);
         add(exitButton, gbc);
     }
 }

@@ -17,9 +17,9 @@ public class MainFrame extends JFrame {
         getContentPane().setBackground(Color.BLACK);
         
         //Top
-        JLabel title = new JLabel("***********************TRON***********************", SwingConstants.CENTER);
-        title.setFont(new Font("Times New Roman", Font.BOLD, 24));
-        title.setForeground(Color.WHITE);
+        JLabel title = new JLabel("T   R   O   N", SwingConstants.CENTER);
+        title.setFont(new Font("Times New Roman", Font.BOLD, 66));
+        title.setForeground(new Color(0, 120, 255));
         title.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         add(title, BorderLayout.NORTH);
         
@@ -41,8 +41,7 @@ public class MainFrame extends JFrame {
         startMenuPanel = new StartMenuPanel(this);
         mainPanel.add(startMenuPanel, "MENU");
         cardLayout.show(mainPanel, "MENU");
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        startMenuPanel.requestFocusInWindow();
     }
     
     public void startGame(boolean loadLevel) {
