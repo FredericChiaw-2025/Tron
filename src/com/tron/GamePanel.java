@@ -202,17 +202,17 @@ public class GamePanel extends JPanel {
         for(Enemy e : enemyList) {
             for(int i = 0; i < trail.length; i++) {
                 for(int j = 0; j < trail[i].length; j++){
-                    if(e.getTrail(i, j) > 0){
+                    for(int k = 1; k <= 10; k++){
+                        if(e.getTrail(i, j) == k){
+                            g.setColor(e.getColor().darker().darker());
+                        g.fillRect(i*cellSize + (10 - k), j*cellSize + (10 - k), cellSize - 2 * (10 - k), cellSize - 2 * (10 - k));
+                        }
+                    }
+                    if(e.getTrail(i, j) > 10){
                         g.setColor(e.getColor().darker().darker());
                         g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                     }
-                }
-            }
-        }
-        for(Enemy e : enemyList) {
-            for(int i = 0; i < trail.length; i++) {
-                for(int j = 0; j < trail[i].length; j++){
-                    if(e.getTrail(i, j) > 10){
+                    if(e.getTrail(i, j) > 15){
                         g.setColor(e.getColor().darker());
                         g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                     }
@@ -221,15 +221,17 @@ public class GamePanel extends JPanel {
         }
         for(int i = 0; i < trail.length; i++) {
             for(int j = 0; j < trail[i].length; j++){
-                if(player.getTrail(i, j) > 0){
+                for(int k = 1; k <= 10; k++){
+                    if(player.getTrail(i, j) == k){
+                        g.setColor(player.getColor().darker().darker());
+                        g.fillRect(i*cellSize + (10 - k), j*cellSize + (10 - k), cellSize - 2 * (10 - k), cellSize - 2 * (10 - k));
+                    }
+                }
+                if(player.getTrail(i, j) > 10){
                     g.setColor(player.getColor().darker().darker());
                     g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                 }
-            }
-        }
-        for(int i = 0; i < trail.length; i++) {
-            for(int j = 0; j < trail[i].length; j++){
-                if(player.getTrail(i, j) > 10){
+                if(player.getTrail(i, j) > 15){
                     g.setColor(player.getColor().darker());
                     g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
                 }
